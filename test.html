@@ -1,11 +1,42 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Page Title</title>
-</head>
-<body>
+    <body>
+        <div id="test">TEST</div>
+    </body>
+    <script>
+        fetch('https://eric-yijuin-lin.github.io/github-page/test.csv')
+        .then(function(response) {
+            return response.text();
+        })
+        .then(function(text) {
+            const lines = text.split(/\r?\n/);
 
-  <h1>TEST</h1>
+            if (lines && lines.length > 0)
+            {
+                const headers = lines[0]
+                let imgTags = "";
+                for (let i = 1; i < lines.length; i++) {
+                    const values = lines[i].split(",");
+                    if (!values || values.length < 3) {
+                        continue;
+                    }
 
-</body>
+                    const imgSource = values[0].trim();
+                    const isShow = Boolean(values[1]);
+                    const alt = values[2].trim();
+
+                    if (isShow) {
+                        imgTags += `<img src="test_images/${imgSource}.jpg" alt="${alt}" />`;
+                    }
+                }
+
+                const divElement = document.getElementById("test");
+                if (divElement) {
+                    divElement.innerHTML = imgTags;
+                }
+            }
+        });
+
+
+    </script>
 </html>
